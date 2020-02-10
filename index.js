@@ -40,6 +40,21 @@ async function handleFulfillmentStatusWebhook(req, res) {
   }
 }
 
+router.post("/github", githubIssuesWebhooks);
+
+async function githubIssuesWebhooks(req, res){
+  try {
+    console.log("github webhooks body");
+    console.log(req.body);
+    console.log("github webhooks headers");
+    console.log(req.headers);
+    return res.send("OK");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
+
 app.listen(PORT, function() {
   console.log("Listening on port :", PORT);
 });
