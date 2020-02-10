@@ -26,9 +26,9 @@ app.get('/konnektive/webhook/shipping', handleFulfillmentStatusWebhook);
 async function handleFulfillmentStatusWebhook(req, res) {
   try {
     console.log(req.query)
-    let { orderId, orderStatus, fulfillmentStatus } = req.query;
-    if (orderStatus === "completed" && fulfillmentStatus === 'shipped') {
-      //execute your code here
+    let { orderId, trackingNumber, customerId, campaignId, orderStatus, fulfillmentStatus } = req.query;
+    if (orderStatus === "COMPLETE" && fulfillmentStatus === 'SHIPPED') {
+      console.log(`update aftership tracking with trackingNumber: ${trackingNumber}, orderId: ${orderId}, campaignId: ${campaignId} and customerId: ${customerId}`)
     }
     return res.status(200).json({
       success: true
