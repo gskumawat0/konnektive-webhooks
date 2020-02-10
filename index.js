@@ -52,6 +52,8 @@ async function handleGetFulfillmentStatusWebhook(req, res) {
     console.log(JSON.parse(JSON.stringify(req.body)));
     console.log("orders headers \n");
     console.log(JSON.parse(JSON.stringify(req.headers)));
+    console.log("orders query parameters \n");
+    console.log(JSON.parse(JSON.stringify(req.query)));
     let { fulfillmentStatus, orderStatus } = req.body;
     console.log(fulfillmentStatus, orderStatus);
     if (fulfillmentStatus === "shipped") {
