@@ -40,7 +40,7 @@ async function handleFulfillmentStatusWebhook(req, res) {
   }
 }
 
-router.post("/github", githubIssuesWebhooks);
+app.post("/github", githubIssuesWebhooks);
 
 async function githubIssuesWebhooks(req, res){
   try {
