@@ -19,49 +19,25 @@ app.get("/", (req, res) => {
 });
 
 
-app.post('/konnektive/webhook/shipping', handleFulfillmentStatusWebhook);
+
+
+app.get('/konnektive/webhook/shipping', handleFulfillmentStatusWebhook);
 
 async function handleFulfillmentStatusWebhook(req, res) {
   try {
-    console.log(new Date().toLocaleTimeString());
-    console.log("requesst arrived");
-    console.log("orders body \n");
-    console.log(JSON.parse(JSON.stringify(req.body)));
-    console.log("orders headers \n");
-    console.log(JSON.parse(JSON.stringify(req.headers)));
-    console.log("orders query parameters \n");
-    console.log(JSON.parse(JSON.stringify(req.query)));
-    let { fulfillmentStatus, orderStatus } = req.body;
-    console.log(fulfillmentStatus, orderStatus);
-    if (fulfillmentStatus === "shipped") {
+    console.log(req.query)
+    let { orderId, orderStatus, fulfillmentStatus } = req.query;
+    if (orderStatus === "completed" && fulfillmentStatus === 'shipped') {
       //execute your code here
     }
-    return res.status(200).send("ok");
+    return res.status(200).json({
+      success: true
+    });
   } catch (err) {
-    return res.status(500).send(err.message);
-  }
-}
-
-app.get('/konnektive/webhook/shipping', handleGetFulfillmentStatusWebhook);
-
-async function handleGetFulfillmentStatusWebhook(req, res) {
-  try {
-    console.log(new Date().toLocaleTimeString());
-    console.log("requesst arrived");
-    console.log("orders body \n");
-    console.log(JSON.parse(JSON.stringify(req.body)));
-    console.log("orders headers \n");
-    console.log(JSON.parse(JSON.stringify(req.headers)));
-    console.log("orders query parameters \n");
-    console.log(JSON.parse(JSON.stringify(req.query)));
-    let { fulfillmentStatus, orderStatus } = req.body;
-    console.log(fulfillmentStatus, orderStatus);
-    if (fulfillmentStatus === "shipped") {
-      //execute your code here
-    }
-    return res.status(200).send("ok");
-  } catch (err) {
-    return res.status(500).send(err.message);
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 }
 
