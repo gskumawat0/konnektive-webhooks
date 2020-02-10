@@ -29,6 +29,29 @@ async function handleFulfillmentStatusWebhook(req, res) {
     console.log(JSON.parse(JSON.stringify(req.body)));
     console.log("orders headers \n");
     console.log(JSON.parse(JSON.stringify(req.headers)));
+    console.log("orders query parameters \n");
+    console.log(JSON.parse(JSON.stringify(req.query)));
+    let { fulfillmentStatus, orderStatus } = req.body;
+    console.log(fulfillmentStatus, orderStatus);
+    if (fulfillmentStatus === "shipped") {
+      //execute your code here
+    }
+    return res.status(200).send("ok");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
+app.get('/konnektive/webhook/shipping', handleGetFulfillmentStatusWebhook);
+
+async function handleGetFulfillmentStatusWebhook(req, res) {
+  try {
+    console.log(new Date().toLocaleTimeString());
+    console.log("requesst arrived");
+    console.log("orders body \n");
+    console.log(JSON.parse(JSON.stringify(req.body)));
+    console.log("orders headers \n");
+    console.log(JSON.parse(JSON.stringify(req.headers)));
     let { fulfillmentStatus, orderStatus } = req.body;
     console.log(fulfillmentStatus, orderStatus);
     if (fulfillmentStatus === "shipped") {
