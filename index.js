@@ -21,10 +21,12 @@ app.get("/", (req, res) => {
 
 
 
-app.get('/konnektive/webhook/shipping', handleFulfillmentStatusWebhook);
+app.get('/konnektive/webhook/shipped', handleFulfillmentStatusWebhook);
 
 async function handleFulfillmentStatusWebhook(req, res) {
   try {
+    console.log('cancelled')
+
     console.log(req.query)
     let { orderId, trackingNumber, customerId, campaignId, orderStatus, fulfillmentStatus } = req.query;
     if (orderStatus === "COMPLETE" && fulfillmentStatus === 'SHIPPED') {
@@ -41,21 +43,67 @@ async function handleFulfillmentStatusWebhook(req, res) {
   }
 }
 
-app.post("/github", githubIssuesWebhooks);
+app.get('/konnektive/webhook/cancelled', handleFulfillmentStatusWebhook);
 
-async function githubIssuesWebhooks(req, res){
+async function handleFulfillmentStatusWebhook(req, res) {
   try {
-    console.log("github webhooks body");
-    console.log(req.body);
-    console.log("github webhooks headers");
-    console.log(req.headers);
-    return res.send("OK");
+    console.log('cancelled')
+    console.log(req.query)
+    let { orderId, trackingNumber, customerId, campaignId, orderStatus, fulfillmentStatus } = req.query;
+    if (orderStatus === "COMPLETE" && fulfillmentStatus === 'SHIPPED') {
+      console.log(`update aftership tracking with trackingNumber: ${trackingNumber}, orderId: ${orderId}, campaignId: ${campaignId} and customerId: ${customerId}`)
+    }
+    return res.status(200).json({
+      success: true
+    });
   } catch (err) {
-    return res.status(500).send(err.message);
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+}
+app.get('/konnektive/webhook/recurring', handleFulfillmentStatusWebhook);
+
+async function handleFulfillmentStatusWebhook(req, res) {
+  try {
+    console.log('cancelled')
+
+    console.log(req.query)
+    let { orderId, trackingNumber, customerId, campaignId, orderStatus, fulfillmentStatus } = req.query;
+    if (orderStatus === "COMPLETE" && fulfillmentStatus === 'SHIPPED') {
+      console.log(`update aftership tracking with trackingNumber: ${trackingNumber}, orderId: ${orderId}, campaignId: ${campaignId} and customerId: ${customerId}`)
+    }
+    return res.status(200).json({
+      success: true
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 }
 
+app.get('/konnektive/webhook/sale', handleFulfillmentStatusWebhook);
 
-app.listen(PORT, function() {
-  console.log("Listening on port :", PORT);
-});
+async function handleFulfillmentStatusWebhook(req, res) {
+  try {
+    console.log('new sale')
+
+    console.log(req.query)
+    let { orderId, trackingNumber, customerId, campaignId, orderStatus, fulfillmentStatus } = req.query;
+    if (orderStatus === "COMPLETE" && fulfillmentStatus === 'SHIPPED') {
+      console.log(`update aftership tracking with trackingNumber: ${trackingNumber}, orderId: ${orderId}, campaignId: ${campaignId} and customerId: ${customerId}`)
+    }
+    return res.status(200).json({
+      success: true
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+}
+
